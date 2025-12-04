@@ -10,17 +10,16 @@ document.getElementById('uploadBtn').addEventListener('click', async () => {
     formData.append('file', file);
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/predict/', {
+        const response = await fetch('http://127.0.0.1:8000/api/predict', {
             method: 'POST',
             body: formData
         });
 
-        if (!response.ok) {
-            throw new Error('Ошибка сервера');
-        }
+        if (!response.ok) throw new Error('Ошибка сервера');
 
         const data = await response.json();
-        document.getElementById('result').textContent = 'Prediction: ' + data.prediction;
+        // Теперь правильно обращаемся к объекту result
+        document.getElementById('result').textContent = 'Prediction: ' + data.result.prediction;
     } catch (error) {
         document.getElementById('result').textContent = 'Ошибка: ' + error.message;
     }
